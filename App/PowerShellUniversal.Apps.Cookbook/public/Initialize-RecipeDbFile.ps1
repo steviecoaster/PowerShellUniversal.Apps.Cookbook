@@ -1,0 +1,12 @@
+function Initialize-RecipeDbFile {
+    [CmdletBinding()]
+    Param(
+        [Parameter(Mandatory)]
+        [String]
+        $DatabaseFile
+    )
+    
+    if(-not (Test-Path $DatabaseFile)) {
+        $null = New-Item $DatabaseFile -ItemType File -Force
+    }
+}

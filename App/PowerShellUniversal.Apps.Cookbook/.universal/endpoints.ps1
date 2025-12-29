@@ -1,0 +1,1 @@
+New-PSUEndpoint -Url "/recipe-image/:id" -Method Get -Module 'PowerShellUniversal.Apps.Cookbook' -Command 'Get-RecipeImageResponse'
