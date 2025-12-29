@@ -166,5 +166,18 @@ function Show-RecipeModal {
                 if ($id) { Sync-UDElement -Id $id -ErrorAction SilentlyContinue }
             }
         }
-    }
+
+        # Cancel button (bottom-right of the modal)
+        New-UDElement -Tag 'div' -Attributes @{ 
+            style = @{ 
+                display = 'flex'
+                justifyContent = 'flex-end'
+                marginTop = '16px'
+            }
+        } -Content {
+            New-UDButton -Text "Cancel" -Variant text -OnClick {
+                Hide-UDModal
+            }
+        }
+    } -Persistent
 }
