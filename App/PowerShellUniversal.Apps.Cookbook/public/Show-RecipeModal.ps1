@@ -167,14 +167,54 @@ function Show-RecipeModal {
             }
         }
 
-        # Cancel button (bottom-right of the modal)
+        # Action buttons (bottom of the modal)
         New-UDElement -Tag 'div' -Attributes @{ 
             style = @{ 
                 display = 'flex'
-                justifyContent = 'flex-end'
+                justifyContent = 'space-between'
+                alignItems = 'center'
                 marginTop = '16px'
             }
         } -Content {
+            
+            # Delete button (left side, only when editing)
+            if ($isEdit) {
+                New-UDButton -Text "Delete Recipe" -Variant outlined -Color secondary -OnClick {
+                    Show-UDModal -Header {
+                        New-UDTypography -Text "Confirm Delete" -Variant h6
+                    } -Content {
+                        New-UDTypography -Text "Are you sure you want to delete this recipe? This action cannot be undone." -Variant body1
+                        
+                        New-UDElement -Tag 'div' -Attributes @{ 
+                            style = @{ 
+                                display = 'flex'
+                                justifyContent = 'flex-end'
+                                gap = '8px'
+                                marginTop = '16px'
+                            }
+                        } -Content {
+                            New-UDButton -Text "Cancel" -Variant text -OnClick {
+                                Hide-UDModal
+                            }
+                            New-UDButton -Text "Delete" -Color secondary -OnClick {
+                                Remove-Recipe -RecipeId $RecipeId
+                                Hide-UDModal
+                                Show-UDToast -Message "Recipe deleted" -Duration 2000
+                                
+                                foreach ($id in $SyncId) {
+                                    if ($id) { Sync-UDElement -Id $id -ErrorAction SilentlyContinue }
+                                }
+                                Hide-UDModal
+                            }
+                        }
+                    } -Persistent
+                }
+            }
+            else {
+                New-UDElement -Tag 'div' -Content {}
+            }
+
+            # Cancel button (right side)
             New-UDButton -Text "Cancel" -Variant text -OnClick {
                 Hide-UDModal
             }

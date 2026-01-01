@@ -12,6 +12,7 @@ SELECT
 FROM Tags t
 LEFT JOIN RecipeTags rt ON rt.TagId = t.TagId
 GROUP BY t.TagId, t.Name
+HAVING RecipeCount > 0
 ORDER BY RecipeCount DESC, t.Name ASC
 LIMIT $Limit;
 "@

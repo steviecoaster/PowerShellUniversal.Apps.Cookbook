@@ -15,7 +15,7 @@ end {
         Title            = 'Kitchen Library'
         Pages            = @($homepage,$browse,$recipe,$print)
         Navigation       = $Navigation
-        NavigationLayout = 'Permanent'
+        NavigationLayout = 'Temporary'
     }
 
     New-UDApp @app

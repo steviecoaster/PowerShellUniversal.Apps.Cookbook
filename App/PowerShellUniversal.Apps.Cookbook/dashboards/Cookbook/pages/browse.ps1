@@ -51,24 +51,43 @@ $browse = New-UDPage -Name "Browse" -Url "/browse" -Content {
             text-transform: none !important;
         }
 
-        .tag-chip button {
-            border-radius: 999px !important;
-            border: 1px solid rgba(181,140,255,0.35) !important;
-            background: rgba(181,140,255,0.08) !important;
-            color: #6E4DFF !important;
-            font-weight: 900 !important;
-            text-transform: none !important;
-            padding: 6px 12px !important;
+        /* Category Chips Styling */
+        .MuiChip-root {
+            font-weight: 700 !important;
+            font-size: 13px !important;
+            height: 36px !important;
+            border-radius: 18px !important;
+            transition: all 0.2s ease !important;
         }
 
-        .tag-chip-selected button {
-            border-radius: 999px !important;
-            border: 1px solid rgba(181,140,255,0.55) !important;
-            background: var(--lilac-dark) !important;
+        .MuiChip-outlined {
+            border: 1.5px solid rgba(181, 140, 255, 0.35) !important;
+            background: linear-gradient(135deg, rgba(181, 140, 255, 0.06), rgba(142, 107, 255, 0.08)) !important;
+            color: #6E4DFF !important;
+        }
+
+        .MuiChip-outlined:hover {
+            border-color: rgba(181, 140, 255, 0.55) !important;
+            background: linear-gradient(135deg, rgba(181, 140, 255, 0.12), rgba(142, 107, 255, 0.16)) !important;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(181, 140, 255, 0.25) !important;
+        }
+
+        .MuiChip-colorPrimary {
+            border: 1.5px solid rgba(142, 107, 255, 0.60) !important;
+            background: linear-gradient(135deg, #8E6BFF, #B58CFF) !important;
             color: white !important;
-            font-weight: 950 !important;
-            text-transform: none !important;
-            padding: 6px 12px !important;
+            box-shadow: 0 4px 14px rgba(142, 107, 255, 0.35) !important;
+        }
+
+        .MuiChip-colorPrimary:hover {
+            background: linear-gradient(135deg, #7A57E5, #9D72E5) !important;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(142, 107, 255, 0.45) !important;
+        }
+
+        .MuiChip-label {
+            padding: 0 14px !important;
         }
 
         .fav-toggle button {
@@ -207,7 +226,7 @@ $browse = New-UDPage -Name "Browse" -Url "/browse" -Content {
                     New-UDStack -Direction row -Spacing 1 -Content {
 
                         if ($tagFilter) {
-                            New-UDButton -Text "All" -ClassName "tag-chip" -OnClick {
+                            New-UDChip -Label "All" -OnClick {
                                 $url = Get-BrowseUrl -Tag $null -Q $search -Fav $favOnly
                                 Invoke-UDRedirect -Url $url
                             }
@@ -219,7 +238,7 @@ $browse = New-UDPage -Name "Browse" -Url "/browse" -Content {
 
                             $selected = ($tagFilter -and $tagFilter -eq $name)
 
-                            New-UDButton -Text "$name ($count)" -ClassName ($selected ? "tag-chip-selected" : "tag-chip") -OnClick {
+                            New-UDChip -Label "$name ($count)" -Variant ($selected ? "default" : "outlined") -Color ($selected ? "primary" : "default") -OnClick {
                                 $url = Get-BrowseUrl -Tag $name -Q $search -Fav $favOnly
                                 Invoke-UDRedirect -Url $url
                             }
